@@ -1,5 +1,6 @@
 package com.rafaeldebiase.taskmanager.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,10 @@ public class UsuarioService {
 			throw new DataIngretyException("Não é possível excluir uma categoria que possuí produtos");
 		}
 		
+	}
+
+	public List<Usuario> findAll() {		
+		return repository.findAll();
 	}
 
 	

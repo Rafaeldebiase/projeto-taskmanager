@@ -1,13 +1,23 @@
 package com.rafaeldebiase.taskmanager.domain;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.rafaeldebiase.taskmanager.domain.enums.PerfilUsuario;
 
 @Entity
 public class Usuario {
@@ -16,14 +26,23 @@ public class Usuario {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
+	
+	@Column(unique=true)
 	private String email;
-
+	private Integer perfilUsuario;
+	
+	@JsonIgnore
 	private String senha;
 	
 	@OneToMany(mappedBy="tarefa")
 	private List<Tarefa> tarefas = new ArrayList<>();
 	
+	 @ElementCollection(fetch=FetchType.EAGER)
+	 @CollectionTable(name="PERFIS")
+	 private Set<Integer> perfis = new HashSet<>();
+	
 	public Usuario() {
+		addPerfil(PerfilUsuario.USUARIO);
 	}
 
 	public Usuario(Integer id, String nome, String email, String senha) {
@@ -32,6 +51,7 @@ public class Usuario {
 		this.nome = nome;
 		this.email = email;
 		this.senha = senha;
+		addPerfil(PerfilUsuario.USUARIO);
 	}
 
 	public Integer getId() {
@@ -66,6 +86,23 @@ public class Usuario {
 		this.senha = senha;
 	}
 	
+	public Integer getPerfilUsuario() {
+		return perfilUsuario;
+	}
+
+	public void setPerfilUsuario(Integer perfilUsuario) {
+		this.perfilUsuario = perfilUsuario;
+	}
+	
+	public Set<PerfilUsuario> getPerfis() {
+		return perfis.stream().map(x -> PerfilUsuario.toEnum(x))
+				.collect(Collectors.toSet());
+	}  
+	
+	public void addPerfil(PerfilUsuario perfil) {
+		perfis.add(perfil.getCod());
+	}
+	
 	public List<Tarefa> getTarefas() {
 		return tarefas;
 	}
@@ -98,4 +135,5 @@ public class Usuario {
 			return false;
 		return true;
 	}
+
 }

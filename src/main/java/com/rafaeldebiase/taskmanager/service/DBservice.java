@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.rafaeldebiase.taskmanager.domain.Tarefa;
 import com.rafaeldebiase.taskmanager.domain.Usuario;
+import com.rafaeldebiase.taskmanager.domain.enums.PerfilUsuario;
 import com.rafaeldebiase.taskmanager.repository.TarefaRepository;
 import com.rafaeldebiase.taskmanager.repository.UsuarioRepository;
 
@@ -20,7 +21,7 @@ public class DBservice {
 
 	@Autowired
 	private BCryptPasswordEncoder pe;
-	
+
 	@Autowired
 	private TarefaRepository tarefaRepository;
 
@@ -37,8 +38,13 @@ public class DBservice {
 		tarefaRepository.saveAll(Arrays.asList(t1, t2, t3, t4));
 
 		Usuario u1 = new Usuario(null, "Rafael", "rafael@teste.com", pe.encode("123456"));
+		u1.addPerfil(PerfilUsuario.ADMIN);
 
-		u1.getTarefas().addAll(Arrays.asList(t1, t2, t3, t4));
+		u1.getTarefas().addAll(Arrays.asList(t3, t4));
+
+		Usuario u2 = new Usuario(null, "Johnny", "Johnny@teste.com", pe.encode("123456"));
+
+		u2.getTarefas().addAll(Arrays.asList(t1, t2));
 
 		usuarioRepository.saveAll(Arrays.asList(u1));
 
