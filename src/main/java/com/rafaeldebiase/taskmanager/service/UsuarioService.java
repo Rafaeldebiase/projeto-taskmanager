@@ -19,6 +19,7 @@ public class UsuarioService {
 	
 	@Autowired
 	private UsuarioRepository repository;
+	
 
 	public Usuario find(Integer id) {
 		Optional<Usuario> obj = repository.findById(id);
@@ -27,7 +28,8 @@ public class UsuarioService {
 				+ "Tipo: " + Tarefa.class.getName()));
 	}
 
-	public Page<Usuario> findPage(Integer page, Integer linesPerPege, String oderBy, String direction) {
+	public Page<Usuario> findPage(
+			Integer page, Integer linesPerPege, String oderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPege, Direction.valueOf(direction), oderBy);
 		return repository.findAll(pageRequest);
 	}
