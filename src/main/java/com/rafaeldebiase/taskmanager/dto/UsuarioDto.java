@@ -18,6 +18,9 @@ public class UsuarioDto implements Serializable {
 	@Length(min=5, max=80, message="O tamanho do nome deve ser entre 5 e 80 caracteres")
 	private String nome;
 	private String email;
+	
+	@NotEmpty(message="Preenchimento Obrigatório")
+	private String senha;
 
 	public UsuarioDto() {
 	}
@@ -50,5 +53,13 @@ public class UsuarioDto implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 }

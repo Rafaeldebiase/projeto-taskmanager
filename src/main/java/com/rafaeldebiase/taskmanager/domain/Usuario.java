@@ -45,12 +45,14 @@ public class Usuario {
 		addPerfil(PerfilUsuario.USUARIO);
 	}
 
-	public Usuario(Integer id, String nome, String email) {
+	public Usuario(Integer id, String nome, String email, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
+		this.senha = senha;
 		addPerfil(PerfilUsuario.USUARIO);
+		
 	}
 
 	public Integer getId() {

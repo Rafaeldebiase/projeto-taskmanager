@@ -3,6 +3,7 @@ package com.rafaeldebiase.taskmanager.service;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rafaeldebiase.taskmanager.domain.Tarefa;
@@ -20,6 +21,9 @@ public class DBservice {
 
 
 	@Autowired
+	private BCryptPasswordEncoder pe;
+	
+	@Autowired
 	private TarefaRepository tarefaRepository;
 
 	@Autowired
@@ -34,16 +38,16 @@ public class DBservice {
 
 		tarefaRepository.saveAll(Arrays.asList(t1, t2, t3, t4));
 
-		Usuario u1 = new Usuario(null, "Rafael", "rafael@teste.com");
+		Usuario u1 = new Usuario(null, "Rafael", "rafael@teste.com", pe.encode("123456"));
 		u1.addPerfil(PerfilUsuario.ADMIN);
 
 		u1.getTarefas().addAll(Arrays.asList(t3, t4));
 
-		Usuario u2 = new Usuario(null, "Johnny", "Johnny@teste.com");
+		Usuario u2 = new Usuario(null, "Johnny", "Johnny@teste.com", pe.encode("123456"));
 
 		u2.getTarefas().addAll(Arrays.asList(t1, t2));
 
-		usuarioRepository.saveAll(Arrays.asList(u1));
+		usuarioRepository.saveAll(Arrays.asList(u1, u2));
 
 	}
 

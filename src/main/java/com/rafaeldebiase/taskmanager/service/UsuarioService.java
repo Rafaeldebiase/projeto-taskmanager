@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rafaeldebiase.taskmanager.domain.Tarefa;
@@ -21,6 +22,9 @@ public class UsuarioService {
 	
 	@Autowired
 	private UsuarioRepository repository;
+	
+	@Autowired
+	private BCryptPasswordEncoder pe;
 	
 
 	public Usuario find(Integer id) {
@@ -61,8 +65,7 @@ public class UsuarioService {
 	}
 
 	public Usuario fromDto(UsuarioDto objDto) {
-		return new Usuario(objDto.getId(), objDto.getNome(), objDto.getEmail());
-		
+		return new Usuario(objDto.getId(), objDto.getNome(), objDto.getEmail(), pe.encode(objDto.getSenha()));
 	}
 	
 
