@@ -7,10 +7,12 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.rafaeldebiase.taskmanager.domain.Usuario;
+import com.rafaeldebiase.taskmanager.service.validation.UsuarioInsert;
 
+@UsuarioInsert
 public class UsuarioDto implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L; 
 
 	private Integer id;
 	

@@ -29,7 +29,6 @@ public class Usuario {
 	
 	@Column(unique=true)
 	private String email;
-	private Integer perfilUsuario;
 	
 	@JsonIgnore
 	private String senha;
@@ -85,14 +84,6 @@ public class Usuario {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
-	}
-	
-	public Integer getPerfilUsuario() {
-		return perfilUsuario;
-	}
-
-	public void setPerfilUsuario(Integer perfilUsuario) {
-		this.perfilUsuario = perfilUsuario;
 	}
 	
 	public Set<PerfilUsuario> getPerfis() {
