@@ -7,9 +7,9 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.rafaeldebiase.taskmanager.domain.Usuario;
-import com.rafaeldebiase.taskmanager.service.validation.UsuarioInsert;
+import com.rafaeldebiase.taskmanager.service.validation.UsuarioUpdate;
 
-@UsuarioInsert
+@UsuarioUpdate
 public class UsuarioDto implements Serializable {
 
 	private static final long serialVersionUID = 1L; 
@@ -21,7 +21,6 @@ public class UsuarioDto implements Serializable {
 	private String nome;
 	private String email;
 	
-	@NotEmpty(message="Preenchimento Obrigatório")
 	private String senha;
 
 	public UsuarioDto() {

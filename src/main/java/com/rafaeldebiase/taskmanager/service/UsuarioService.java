@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.rafaeldebiase.taskmanager.domain.Tarefa;
 import com.rafaeldebiase.taskmanager.domain.Usuario;
 import com.rafaeldebiase.taskmanager.dto.UsuarioDto;
+import com.rafaeldebiase.taskmanager.dto.UsuarioNewDto;
 import com.rafaeldebiase.taskmanager.repository.UsuarioRepository;
 import com.rafaeldebiase.taskmanager.service.exception.DataIngretyException;
 import com.rafaeldebiase.taskmanager.service.exception.ObjectNotFoundException;
@@ -65,6 +66,10 @@ public class UsuarioService {
 	}
 
 	public Usuario fromDto(UsuarioDto objDto) {
+		return new Usuario(objDto.getId(), objDto.getNome(), objDto.getEmail(), pe.encode(objDto.getSenha()));
+	}
+	
+	public Usuario fromDto(UsuarioNewDto objDto) {
 		return new Usuario(objDto.getId(), objDto.getNome(), objDto.getEmail(), pe.encode(objDto.getSenha()));
 	}
 	

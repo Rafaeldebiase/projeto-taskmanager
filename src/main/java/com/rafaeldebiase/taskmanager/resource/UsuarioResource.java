@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.rafaeldebiase.taskmanager.domain.Usuario;
 import com.rafaeldebiase.taskmanager.dto.UsuarioDto;
+import com.rafaeldebiase.taskmanager.dto.UsuarioNewDto;
 import com.rafaeldebiase.taskmanager.service.UsuarioService;
 
 
@@ -55,7 +56,7 @@ public class UsuarioResource {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody UsuarioDto objDto){
+	public ResponseEntity<Void> insert(@Valid @RequestBody UsuarioNewDto objDto){
 		Usuario obj = service.fromDto(objDto);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()

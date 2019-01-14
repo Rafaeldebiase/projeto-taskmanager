@@ -9,11 +9,11 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.rafaeldebiase.taskmanager.domain.Usuario;
-import com.rafaeldebiase.taskmanager.dto.UsuarioDto;
+import com.rafaeldebiase.taskmanager.dto.UsuarioNewDto;
 import com.rafaeldebiase.taskmanager.repository.UsuarioRepository;
 import com.rafaeldebiase.taskmanager.resource.exception.FieldMessage;
 
-public class UsuarioInsertValidator implements ConstraintValidator<UsuarioInsert, UsuarioDto> {
+public class UsuarioInsertValidator implements ConstraintValidator<UsuarioInsert, UsuarioNewDto> {
 	
 	@Autowired
 	private UsuarioRepository repository;
@@ -23,7 +23,7 @@ public class UsuarioInsertValidator implements ConstraintValidator<UsuarioInsert
 	}
 
 	@Override
-	public boolean isValid(UsuarioDto objDto, ConstraintValidatorContext context) {
+	public boolean isValid(UsuarioNewDto objDto, ConstraintValidatorContext context) {
 		List<FieldMessage> list = new ArrayList<>();
 
 		Usuario aux = repository.findByEmail(objDto.getEmail());
