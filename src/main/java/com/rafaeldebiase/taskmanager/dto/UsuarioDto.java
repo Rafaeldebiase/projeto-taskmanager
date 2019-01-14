@@ -2,6 +2,10 @@ package com.rafaeldebiase.taskmanager.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.rafaeldebiase.taskmanager.domain.Usuario;
 
 public class UsuarioDto implements Serializable {
@@ -9,6 +13,9 @@ public class UsuarioDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
+	
+	@NotEmpty(message="Preenchimento Obrigatório")
+	@Length(min=5, max=80, message="O tamanho do nome deve ser entre 5 e 80 caracteres")
 	private String nome;
 	private String email;
 
