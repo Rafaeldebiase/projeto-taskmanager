@@ -3,7 +3,7 @@ package com.rafaeldebiase.taskmanager.domain.enums;
 public enum PerfilUsuario {
 	
 	ADMIN(1, "ROLE_ADMIN"),
-	USUARIO(1, "ROLE_USUARIO");
+	USUARIO(2, "ROLE_USUARIO");
 	
 	private int cod;
 	private String descricao;
