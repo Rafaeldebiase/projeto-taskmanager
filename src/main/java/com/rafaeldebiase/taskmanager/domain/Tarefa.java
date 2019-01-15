@@ -27,7 +27,7 @@ public class Tarefa {
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="usuario_id")
-	private Tarefa tarefa;
+	private Usuario usuario;
 	
 	public Tarefa() {
 	}
@@ -38,12 +38,13 @@ public class Tarefa {
 	 * @param descricao
 	 * @param concluido
 	 */
-	public Tarefa(Integer id, String nome, String descricao, Boolean concluido) {
+	public Tarefa(Integer id, String nome, String descricao, Boolean concluido, Usuario usuario) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.concluido = concluido;
+		this.usuario = usuario;
 	}
 
 	/**
@@ -100,6 +101,14 @@ public class Tarefa {
 	 */
 	public void setConcluido(Boolean concluido) {
 		this.concluido = concluido;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	/* (non-Javadoc)

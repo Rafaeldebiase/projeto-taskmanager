@@ -30,24 +30,24 @@ public class DBservice {
 	private UsuarioRepository usuarioRepository;
 
 	public void instantiateTestDatabase() {
-
-		Tarefa t1 = new Tarefa(null, "Estudar", "java", false);
-		Tarefa t2 = new Tarefa(null, "Estudar", "C#", false);
-		Tarefa t3 = new Tarefa(null, "Corre", "praia a noite", true);
-		Tarefa t4 = new Tarefa(null, "lanchar", "pizza", false);
-
-		tarefaRepository.saveAll(Arrays.asList(t1, t2, t3, t4));
-
+		
 		Usuario u1 = new Usuario(null, "Rafael", "rafael@teste.com", pe.encode("123456"));
 		u1.addPerfil(PerfilUsuario.ADMIN);
-
-		u1.getTarefas().addAll(Arrays.asList(t3, t4));
-
+		
 		Usuario u2 = new Usuario(null, "Johnny", "Johnny@teste.com", pe.encode("123456"));
-
-		u2.getTarefas().addAll(Arrays.asList(t1, t2));
+		
+		Tarefa t1 = new Tarefa(null, "Estudar", "java", false, u1);
+		Tarefa t2 = new Tarefa(null, "Estudar", "C#", false, u1);
+		Tarefa t3 = new Tarefa(null, "Corre", "praia a noite", true, u2);
+		Tarefa t4 = new Tarefa(null, "lanchar", "pizza", false, u2);
+		
+		u1.getTarefas().addAll(Arrays.asList(t1, t2));
+		
+		u2.getTarefas().addAll(Arrays.asList(t3, t4));
 
 		usuarioRepository.saveAll(Arrays.asList(u1, u2));
+		tarefaRepository.saveAll(Arrays.asList(t1, t2, t3, t4));
+		
 
 	}
 

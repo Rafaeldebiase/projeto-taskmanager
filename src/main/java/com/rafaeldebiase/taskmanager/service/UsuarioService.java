@@ -12,9 +12,12 @@ import org.springframework.stereotype.Service;
 
 import com.rafaeldebiase.taskmanager.domain.Tarefa;
 import com.rafaeldebiase.taskmanager.domain.Usuario;
+import com.rafaeldebiase.taskmanager.domain.enums.PerfilUsuario;
 import com.rafaeldebiase.taskmanager.dto.UsuarioDto;
 import com.rafaeldebiase.taskmanager.dto.UsuarioNewDto;
 import com.rafaeldebiase.taskmanager.repository.UsuarioRepository;
+import com.rafaeldebiase.taskmanager.security.UserSS;
+import com.rafaeldebiase.taskmanager.service.exception.AuthorizationException;
 import com.rafaeldebiase.taskmanager.service.exception.DataIngretyException;
 import com.rafaeldebiase.taskmanager.service.exception.ObjectNotFoundException;
 
@@ -29,6 +32,12 @@ public class UsuarioService {
 	
 
 	public Usuario find(Integer id) {
+		
+		UserSS user = UserServices.authenticated();
+		if ( user == null || !user.hasRole(PerfilUsuario.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		Optional<Usuario> obj = repository.findById(id);
 		return obj.orElseThrow(() -> 
 		new ObjectNotFoundException("Objeto não encontrado id: " + id 

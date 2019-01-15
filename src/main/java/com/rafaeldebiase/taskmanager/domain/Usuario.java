@@ -33,7 +33,7 @@ public class Usuario {
 	@JsonIgnore
 	private String senha;
 	
-	@OneToMany(mappedBy="tarefa")
+	@OneToMany(mappedBy="usuario")
 	private List<Tarefa> tarefas = new ArrayList<>();
 	
 	 @ElementCollection(fetch=FetchType.EAGER)

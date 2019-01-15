@@ -9,7 +9,11 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.rafaeldebiase.taskmanager.domain.Tarefa;
+import com.rafaeldebiase.taskmanager.domain.Usuario;
 import com.rafaeldebiase.taskmanager.repository.TarefaRepository;
+import com.rafaeldebiase.taskmanager.repository.UsuarioRepository;
+import com.rafaeldebiase.taskmanager.security.UserSS;
+import com.rafaeldebiase.taskmanager.service.exception.AuthorizationException;
 import com.rafaeldebiase.taskmanager.service.exception.DataIngretyException;
 import com.rafaeldebiase.taskmanager.service.exception.ObjectNotFoundException;
 
@@ -19,6 +23,10 @@ public class TarefaService {
 	
 	@Autowired
 	private TarefaRepository repository;
+		
+	@Autowired
+	private UsuarioService usuarioService;
+
 
 	public Tarefa find(Integer id) {
 		Optional<Tarefa> obj = repository.findById(id);
@@ -47,8 +55,13 @@ public class TarefaService {
 	}
 
 	public Page<Tarefa> findPage(Integer page, Integer linesPerPege, String oderBy, String direction) {
+		UserSS user = UserServices.authenticated();
+		if ( user == null ) {
+			throw new AuthorizationException("Acesso negado");
+		}
 		PageRequest pageRequest = PageRequest.of(page, linesPerPege, Direction.valueOf(direction), oderBy);
-		return repository.findAll(pageRequest);
+		Usuario usuario = usuarioService.find(user.getId());
+		return repository.findByUsuario(usuario, pageRequest);
 	}
 	
 	

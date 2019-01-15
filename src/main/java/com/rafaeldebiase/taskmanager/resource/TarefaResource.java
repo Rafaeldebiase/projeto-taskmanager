@@ -33,12 +33,12 @@ public class TarefaResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@RequestMapping(value="/page", method=RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<Page<Tarefa>> page(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
 			@RequestParam(value="linesPerPege", defaultValue="24") Integer linesPerPege, 
 			@RequestParam(value="oderBy", defaultValue="nome") String oderBy, 
-			@RequestParam(value="direction", defaultValue="ASC") String direction) {
+			@RequestParam(value="direction", defaultValue="DESC") String direction) {
 		Page<Tarefa> list = service.findPage(page, linesPerPege, oderBy, direction);
 		return ResponseEntity.ok().body(list);
 	}
