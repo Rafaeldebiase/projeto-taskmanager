@@ -33,6 +33,7 @@ public class Usuario {
 	@JsonIgnore
 	private String senha;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="usuario")
 	private List<Tarefa> tarefas = new ArrayList<>();
 	

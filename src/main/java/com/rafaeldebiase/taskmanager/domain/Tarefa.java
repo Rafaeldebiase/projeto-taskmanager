@@ -9,8 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 /**
  * @author Rafael de Biase
  *
@@ -27,7 +25,6 @@ public class Tarefa {
 	private Boolean concluido;
 	private Calendar dataCriacao;
 	
-	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="usuario_id")
 	private Usuario usuario;
@@ -37,14 +34,14 @@ public class Tarefa {
 
 	/**
 	 * @param id
-	 * @param nome
+	 * @param titulo
 	 * @param descricao
 	 * @param concluido
 	 */
-	public Tarefa(Integer id, String nome, String descricao, Boolean concluido, Calendar dataCriacao,Usuario usuario) {
+	public Tarefa(Integer id, String titulo, String descricao, Boolean concluido, Calendar dataCriacao,Usuario usuario) {
 		super();
 		this.id = id;
-		this.titulo = nome;
+		this.titulo = titulo;
 		this.descricao = descricao;
 		this.concluido = concluido;
 		this.dataCriacao = dataCriacao;

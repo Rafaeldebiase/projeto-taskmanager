@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.rafaeldebiase.taskmanager.domain.Tarefa;
 import com.rafaeldebiase.taskmanager.domain.Usuario;
@@ -47,21 +48,25 @@ public class UsuarioService {
 	public Page<Usuario> findPage(
 			Integer page, Integer linesPerPege, String oderBy, String direction) {
 		
-		UserSS user = UserServices.authenticated();
+		/*UserSS user = UserServices.authenticated();
 		if ( user == null ) {
 			throw new AuthorizationException("Acesso negado");
-		}
+		}*/
+		
 		PageRequest pageRequest = PageRequest.of(page, linesPerPege, Direction.valueOf(direction), oderBy);
 		return repository.findAll(pageRequest);
 	}
 
+	@Transactional
 	public Usuario insert(Usuario obj) {
 		obj.setId(null);
-		return repository.save(obj);
+		obj = repository.save(obj);
+		return obj;
 	}
 
 	public Usuario update(Usuario obj) {
-		find(obj.getId());
+		Usuario newObj = find(obj.getId());
+		updateData(newObj, obj);
 		return repository.save(obj);
 	}
 
@@ -75,17 +80,24 @@ public class UsuarioService {
 		
 	}
 
-	public List<Usuario> findAll() {		
+	public List<Usuario> findAll() {			
 		return repository.findAll();
+	}
+	
+	private void updateData(Usuario newObj, Usuario obj) {
+		newObj.setNome(obj.getNome());
+		newObj.setEmail(obj.getEmail());
+		newObj.setSenha(obj.getSenha());
 	}
 
 	public Usuario fromDto(UsuarioDto objDto) {
-		return new Usuario(objDto.getId(), objDto.getNome(), objDto.getEmail(), pe.encode(objDto.getSenha()));
+		return new Usuario(objDto.getId(), objDto.getNome(), objDto.getEmail(), null);
 	}
 	
 	public Usuario fromDto(UsuarioNewDto objDto) {
-		return new Usuario(objDto.getId(), objDto.getNome(), objDto.getEmail(), pe.encode(objDto.getSenha()));
+		return new Usuario(null, objDto.getNome(), objDto.getEmail(), pe.encode(objDto.getSenha()));
 	}
 	
+	// 
 
 }

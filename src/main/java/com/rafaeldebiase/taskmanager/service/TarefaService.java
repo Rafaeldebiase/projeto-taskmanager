@@ -1,5 +1,6 @@
 package com.rafaeldebiase.taskmanager.service;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.rafaeldebiase.taskmanager.domain.Tarefa;
 import com.rafaeldebiase.taskmanager.domain.Usuario;
 import com.rafaeldebiase.taskmanager.dto.TarefaDto;
+import com.rafaeldebiase.taskmanager.dto.TarefaNewDto;
 import com.rafaeldebiase.taskmanager.repository.TarefaRepository;
 import com.rafaeldebiase.taskmanager.security.UserSS;
 import com.rafaeldebiase.taskmanager.service.exception.AuthorizationException;
@@ -30,6 +32,11 @@ public class TarefaService {
 
 
 	public Tarefa find(Integer id) {
+		UserSS user = UserServices.authenticated();
+		if ( user == null ) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		Optional<Tarefa> obj = repository.findById(id);
 		return obj.orElseThrow(() -> 
 		new ObjectNotFoundException("Objeto não encontrado id: " + id 
@@ -46,6 +53,10 @@ public class TarefaService {
 		return repository.findByUsuario(usuario, pageRequest);
 	}
 	
+	public List<Tarefa> findByUsuario(Usuario id) {
+		return repository.findByUsuario(id);
+	}
+	
 	public List<Tarefa> findAll() {		
 		return repository.findAll();
 	}
@@ -56,7 +67,8 @@ public class TarefaService {
 	}
 
 	public Tarefa update(Tarefa obj) {
-		find(obj.getId());
+		Tarefa newObj = find(obj.getId());
+		updateData(newObj, obj);
 		return repository.save(obj);
 	}
 
@@ -67,5 +79,20 @@ public class TarefaService {
 		} catch (DataIngretyException e) {
 			throw new DataIngretyException("Não é possível excluir uma categoria que possuí produtos");
 		}
+	}
+	
+	private void updateData(Tarefa newObj, Tarefa obj) {
+		newObj.setTitulo(obj.getTitulo());
+		newObj.setDescricao(obj.getDescricao());
+		newObj.setConcluido(obj.getConcluido());
+	}
+	
+	public Tarefa fromDto(TarefaDto objDto) {
+		return new Tarefa(null, objDto.getTitulo(), objDto.getDescricao(), objDto.getConcluido(), null, null);
+		
+	}
+
+	public Tarefa fromDto(TarefaNewDto objDto) {
+		return new Tarefa(null, objDto.getTitulo(), objDto.getDescricao(), objDto.getConcluido(), Calendar.getInstance(), usuarioService.find(objDto.getIdUsuario()));
 	}
 }

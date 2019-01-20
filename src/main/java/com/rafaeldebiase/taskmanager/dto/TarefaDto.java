@@ -6,9 +6,7 @@ import java.util.Calendar;
 import javax.validation.constraints.NotEmpty;
 
 import com.rafaeldebiase.taskmanager.domain.Tarefa;
-import com.rafaeldebiase.taskmanager.service.validation.UsuarioUpdate;
 
-@UsuarioUpdate
 public class TarefaDto implements Serializable {
 
 	private static final long serialVersionUID = 1L; 
