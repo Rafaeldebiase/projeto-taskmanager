@@ -46,6 +46,11 @@ public class UsuarioService {
 
 	public Page<Usuario> findPage(
 			Integer page, Integer linesPerPege, String oderBy, String direction) {
+		
+		UserSS user = UserServices.authenticated();
+		if ( user == null ) {
+			throw new AuthorizationException("Acesso negado");
+		}
 		PageRequest pageRequest = PageRequest.of(page, linesPerPege, Direction.valueOf(direction), oderBy);
 		return repository.findAll(pageRequest);
 	}

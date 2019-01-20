@@ -1,6 +1,7 @@
 package com.rafaeldebiase.taskmanager.service;
 
 import java.util.Arrays;
+import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,10 +37,10 @@ public class DBservice {
 		
 		Usuario u2 = new Usuario(null, "Johnny", "Johnny@teste.com", pe.encode("123456"));
 		
-		Tarefa t1 = new Tarefa(null, "Estudar", "java", false, u1);
-		Tarefa t2 = new Tarefa(null, "Estudar", "C#", false, u1);
-		Tarefa t3 = new Tarefa(null, "Corre", "praia a noite", true, u2);
-		Tarefa t4 = new Tarefa(null, "lanchar", "pizza", false, u2);
+		Tarefa t1 = new Tarefa(null, "Estudar", "java", false, Calendar.getInstance(), u1);
+		Tarefa t2 = new Tarefa(null, "Estudar", "C#", false, Calendar.getInstance(), u1);
+		Tarefa t3 = new Tarefa(null, "Corre", "praia a noite", true, Calendar.getInstance(), u2);
+		Tarefa t4 = new Tarefa(null, "lanchar", "pizza", false, Calendar.getInstance(), u2);
 		
 		u1.getTarefas().addAll(Arrays.asList(t1, t2));
 		

@@ -1,5 +1,7 @@
 package com.rafaeldebiase.taskmanager.domain;
 
+import java.util.Calendar;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,9 +22,10 @@ public class Tarefa {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	private String nome;
+	private String titulo;
 	private String descricao;
 	private Boolean concluido;
+	private Calendar dataCriacao;
 	
 	@JsonIgnore
 	@ManyToOne
@@ -38,12 +41,13 @@ public class Tarefa {
 	 * @param descricao
 	 * @param concluido
 	 */
-	public Tarefa(Integer id, String nome, String descricao, Boolean concluido, Usuario usuario) {
+	public Tarefa(Integer id, String nome, String descricao, Boolean concluido, Calendar dataCriacao,Usuario usuario) {
 		super();
 		this.id = id;
-		this.nome = nome;
+		this.titulo = nome;
 		this.descricao = descricao;
 		this.concluido = concluido;
+		this.dataCriacao = dataCriacao;
 		this.usuario = usuario;
 	}
 
@@ -64,15 +68,15 @@ public class Tarefa {
 	/**
 	 * @return the nome
 	 */
-	public String getNome() {
-		return nome;
+	public String getTitulo() {
+		return titulo;
 	}
 
 	/**
 	 * @param nome the nome to set
 	 */
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setTitulo(String nome) {
+		this.titulo = nome;
 	}
 
 	/**
@@ -101,6 +105,14 @@ public class Tarefa {
 	 */
 	public void setConcluido(Boolean concluido) {
 		this.concluido = concluido;
+	}
+	
+	public Calendar getDataCriacao() {
+		return dataCriacao;
+	}
+
+	public void setDataCriacao(Calendar dataCriacao) {
+		this.dataCriacao = dataCriacao;
 	}
 
 	public Usuario getUsuario() {

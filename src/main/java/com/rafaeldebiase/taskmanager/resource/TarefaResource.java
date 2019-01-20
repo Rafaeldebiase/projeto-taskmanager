@@ -1,5 +1,7 @@
 package com.rafaeldebiase.taskmanager.resource;
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.rafaeldebiase.taskmanager.domain.Tarefa;
+import com.rafaeldebiase.taskmanager.dto.TarefaDto;
 import com.rafaeldebiase.taskmanager.service.TarefaService;
 
 /**
@@ -34,10 +37,18 @@ public class TarefaResource {
 	}
 	
 	@RequestMapping(method=RequestMethod.GET)
+	public ResponseEntity<List<TarefaDto>> findAll() {
+		List<Tarefa> list = service.findAll();
+		List<TarefaDto> listTDO = list.stream()
+				.map(obj -> new TarefaDto(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listTDO);
+	}
+	
+	@RequestMapping(value="/page", method=RequestMethod.GET)
 	public ResponseEntity<Page<Tarefa>> page(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
 			@RequestParam(value="linesPerPege", defaultValue="24") Integer linesPerPege, 
-			@RequestParam(value="oderBy", defaultValue="nome") String oderBy, 
+			@RequestParam(value="oderBy", defaultValue="titulo") String oderBy, 
 			@RequestParam(value="direction", defaultValue="DESC") String direction) {
 		Page<Tarefa> list = service.findPage(page, linesPerPege, oderBy, direction);
 		return ResponseEntity.ok().body(list);
