@@ -23,7 +23,6 @@ public interface TarefaRepository extends JpaRepository<Tarefa, Integer> {
 	Page<Tarefa> findByUsuario(Usuario usuario, Pageable pageRequest);
 	
 	@Transactional(readOnly=true)
-	List<Tarefa> findByUsuario(Usuario usuario);
-	
+	List<Tarefa> findByUsuario(Usuario id);
 	
 }

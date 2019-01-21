@@ -40,6 +40,14 @@ public class UsuarioResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@PreAuthorize("hasAnyRole('USUARIO')")
+	@ApiOperation(value="Busca tarefa por email")
+	@RequestMapping(value="/email={email}", method=RequestMethod.GET)
+	public ResponseEntity<Usuario> findByEmail(@PathVariable String email) {
+		Usuario obj = service.findByEmail(email);
+		return ResponseEntity.ok().body(obj);
+	}
+	
 	@ApiOperation(value="Lista todas os usuários - restrição: Admin")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method=RequestMethod.GET)

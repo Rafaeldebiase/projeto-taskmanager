@@ -54,8 +54,8 @@ public class TarefaService {
 		return repository.findByUsuario(usuario, pageRequest);
 	}
 	
-	public List<Tarefa> findByUsuario(Usuario email) {
-		return repository.findByUsuario(email);
+	public List<Tarefa> findByUsuario(Usuario id) {
+		return repository.findByUsuario(id);
 	}
 	
 	public List<Tarefa> findAll() {		

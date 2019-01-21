@@ -48,10 +48,10 @@ public class UsuarioService {
 	public Page<Usuario> findPage(
 			Integer page, Integer linesPerPege, String oderBy, String direction) {
 		
-		/*UserSS user = UserServices.authenticated();
+		UserSS user = UserServices.authenticated();
 		if ( user == null ) {
 			throw new AuthorizationException("Acesso negado");
-		}*/
+		}
 		
 		PageRequest pageRequest = PageRequest.of(page, linesPerPege, Direction.valueOf(direction), oderBy);
 		return repository.findAll(pageRequest);
@@ -78,6 +78,10 @@ public class UsuarioService {
 			throw new DataIngretyException("Não é possível excluir uma categoria que possuí produtos");
 		}
 		
+	}
+	
+	public Usuario findByEmail(String email) {			
+		return repository.findByEmail(email);
 	}
 
 	public List<Usuario> findAll() {			

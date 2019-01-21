@@ -54,11 +54,11 @@ public class TarefaResource {
 		return ResponseEntity.ok().body(listTDO);
 	}
 	
-	@ApiOperation(value="Lista somente as tarefas do usuário - busca por Id")
+	@ApiOperation(value="Lista somente as tarefas do usuário - busca por id")
 	@PreAuthorize("hasAnyRole('USUARIO')")
 	@RequestMapping(value="/usuario={id}", method=RequestMethod.GET)
-	public ResponseEntity<List<TarefaDto>> findByUsuario(@PathVariable Usuario email) {
-		List<Tarefa> list = service.findByUsuario(email);
+	public ResponseEntity<List<TarefaDto>> findByUsuario(@PathVariable Usuario id) {
+		List<Tarefa> list = service.findByUsuario(id);
 		List<TarefaDto> listTDO = list.stream()
 				.map(obj -> new TarefaDto(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listTDO);
