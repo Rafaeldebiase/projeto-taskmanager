@@ -52,8 +52,8 @@ public class TarefaResource {
 	
 	@PreAuthorize("hasAnyRole('USUARIO')")
 	@RequestMapping(value="/usuario={id}", method=RequestMethod.GET)
-	public ResponseEntity<List<TarefaDto>> findByUsuario(@PathVariable Usuario id) {
-		List<Tarefa> list = service.findByUsuario(id);
+	public ResponseEntity<List<TarefaDto>> findByUsuario(@PathVariable Usuario email) {
+		List<Tarefa> list = service.findByUsuario(email);
 		List<TarefaDto> listTDO = list.stream()
 				.map(obj -> new TarefaDto(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listTDO);
