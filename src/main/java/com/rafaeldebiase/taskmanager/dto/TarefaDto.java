@@ -6,6 +6,7 @@ import java.util.Calendar;
 import javax.validation.constraints.NotEmpty;
 
 import com.rafaeldebiase.taskmanager.domain.Tarefa;
+import com.rafaeldebiase.taskmanager.domain.enums.StatusTarefa;
 
 public class TarefaDto implements Serializable {
 
@@ -18,6 +19,8 @@ public class TarefaDto implements Serializable {
 	private String descricao;
 	private Boolean concluido;
 	private Calendar dataCriacao;
+	private Calendar dataPrevisaoEntrega;
+	private StatusTarefa status;
 
 	public TarefaDto() {
 	}
@@ -28,6 +31,8 @@ public class TarefaDto implements Serializable {
 		descricao = obj.getDescricao();
 		concluido = obj.getConcluido();
 		dataCriacao = obj.getDataCriacao();
+		setDataPrevisaoEntrega(obj.getDataPrevisaoEntrega());
+		setStatus(obj.getStatus());
 	}
 	
 	public Integer getId() {
@@ -68,5 +73,21 @@ public class TarefaDto implements Serializable {
 
 	public void setDataCriacao(Calendar dataCriacao) {
 		this.dataCriacao = dataCriacao;
+	}
+
+	public Calendar getDataPrevisaoConclusao() {
+		return dataPrevisaoEntrega;
+	}
+
+	public void setDataPrevisaoEntrega(Calendar dataPrevisaoEntrega) {
+		this.dataPrevisaoEntrega = dataPrevisaoEntrega;
+	}
+
+	public StatusTarefa getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusTarefa status) {
+		this.status = status;
 	}
 }

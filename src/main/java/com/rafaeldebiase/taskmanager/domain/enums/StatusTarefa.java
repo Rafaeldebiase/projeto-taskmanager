@@ -3,7 +3,8 @@ package com.rafaeldebiase.taskmanager.domain.enums;
 public enum StatusTarefa {
 	
 	PENDENTE(1, "ROLE_USUARIO"),
-	ATRASADA(2, "ROLE_USUARIO");
+	ATRASADA(2, "ROLE_USUARIO"),
+	CONCLUIDO(3, "ROLE_USUARIO");
 	
 	private int cod;
 	private String descricao;

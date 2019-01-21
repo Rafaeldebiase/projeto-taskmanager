@@ -3,6 +3,8 @@ package com.rafaeldebiase.taskmanager.dto;
 import java.io.Serializable;
 import java.util.Calendar;
 
+import com.rafaeldebiase.taskmanager.domain.enums.StatusTarefa;
+
 public class TarefaNewDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -11,6 +13,8 @@ public class TarefaNewDto implements Serializable {
 	private String descricao;
 	private Boolean concluido;
 	private Calendar dataCriacao;
+	private Calendar dataPrevisaoEntrega;
+	private StatusTarefa status;
 	
 	private Integer idUsuario;
 	private String nome;
@@ -73,6 +77,22 @@ public class TarefaNewDto implements Serializable {
 
 	public void setIdUsuario(Integer idUsuario) {
 		this.idUsuario = idUsuario;
+	}
+
+	public Calendar getDataPrevisaoEntrega() {
+		return dataPrevisaoEntrega;
+	}
+
+	public void setDataPrevisaoEntrega(Calendar dataPrevisaoEntrega) {
+		this.dataPrevisaoEntrega = dataPrevisaoEntrega;
+	}
+
+	public StatusTarefa getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusTarefa status) {
+		this.status = status;
 	}
 
 

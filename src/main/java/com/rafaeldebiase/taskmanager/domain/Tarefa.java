@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.rafaeldebiase.taskmanager.domain.enums.StatusTarefa;
+
 /**
  * @author Rafael de Biase
  *
@@ -24,6 +26,9 @@ public class Tarefa {
 	private String descricao;
 	private Boolean concluido;
 	private Calendar dataCriacao;
+	private Calendar dataPrevisaoEntrega;
+	private Integer status;
+	
 	
 	@ManyToOne
 	@JoinColumn(name="usuario_id")
@@ -38,14 +43,19 @@ public class Tarefa {
 	 * @param descricao
 	 * @param concluido
 	 */
-	public Tarefa(Integer id, String titulo, String descricao, Boolean concluido, Calendar dataCriacao,Usuario usuario) {
+	public Tarefa(Integer id, String titulo, String descricao, 
+			Boolean concluido, Calendar dataCriacao,Calendar dataPrevisaoEntrega, 
+			StatusTarefa status ,Usuario usuario) {
 		super();
 		this.id = id;
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.concluido = concluido;
 		this.dataCriacao = dataCriacao;
+		this.setDataPrevisaoEntrega(dataPrevisaoEntrega);
+		this.status = status.getCod();
 		this.usuario = usuario;
+		
 	}
 
 	/**
@@ -110,6 +120,22 @@ public class Tarefa {
 
 	public void setDataCriacao(Calendar dataCriacao) {
 		this.dataCriacao = dataCriacao;
+	}
+	
+	public Calendar getDataPrevisaoEntrega() {
+		return dataPrevisaoEntrega;
+	}
+
+	public void setDataPrevisaoEntrega(Calendar dataPrevisaoEntrega) {
+		this.dataPrevisaoEntrega = dataPrevisaoEntrega;
+	}
+	
+	public StatusTarefa getStatus() {
+		return StatusTarefa.toEnum(status);
+	}
+
+	public void setStatus(StatusTarefa status) {
+		this.status = status.getCod();
 	}
 
 	public Usuario getUsuario() {

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.rafaeldebiase.taskmanager.domain.Tarefa;
 import com.rafaeldebiase.taskmanager.domain.Usuario;
+import com.rafaeldebiase.taskmanager.domain.enums.StatusTarefa;
 import com.rafaeldebiase.taskmanager.dto.TarefaDto;
 import com.rafaeldebiase.taskmanager.dto.TarefaNewDto;
 import com.rafaeldebiase.taskmanager.repository.TarefaRepository;
@@ -88,11 +89,36 @@ public class TarefaService {
 	}
 	
 	public Tarefa fromDto(TarefaDto objDto) {
-		return new Tarefa(null, objDto.getTitulo(), objDto.getDescricao(), objDto.getConcluido(), null, null);
+		StatusTarefa newObj = this._verificaStatusTarefa(objDto);
+		return new Tarefa(null, objDto.getTitulo(), objDto.getDescricao(), objDto.getConcluido(), null, objDto.getDataPrevisaoConclusao(), newObj, null);
 		
 	}
 
 	public Tarefa fromDto(TarefaNewDto objDto) {
-		return new Tarefa(null, objDto.getTitulo(), objDto.getDescricao(), objDto.getConcluido(), Calendar.getInstance(), usuarioService.find(objDto.getIdUsuario()));
+		StatusTarefa newObj = this._verificaStatusTarefa(objDto);
+		return new Tarefa(null, objDto.getTitulo(), objDto.getDescricao(), objDto.getConcluido(), Calendar.getInstance(), objDto.getDataPrevisaoEntrega(), newObj, usuarioService.find(objDto.getIdUsuario()));
 	}
+	
+	private StatusTarefa _verificaStatusTarefa(TarefaNewDto objDto) {
+		if (objDto.getDataPrevisaoEntrega().before(Calendar.getInstance()) && !objDto.getConcluido()) {
+			return StatusTarefa.PENDENTE;
+		} else if (objDto.getDataPrevisaoEntrega().equals(Calendar.getInstance()) && !objDto.getConcluido()) {
+			return StatusTarefa.PENDENTE;
+		} else if (objDto.getDataPrevisaoEntrega().after(Calendar.getInstance()) && !objDto.getConcluido()) {
+			return StatusTarefa.ATRASADA;
+		} else 
+		return StatusTarefa.CONCLUIDO;
+	}
+	
+	private StatusTarefa _verificaStatusTarefa(TarefaDto objDto) {
+		if (objDto.getDataPrevisaoConclusao().before(Calendar.getInstance()) && !objDto.getConcluido()) {
+			return StatusTarefa.PENDENTE;
+		} else if (objDto.getDataPrevisaoConclusao().equals(Calendar.getInstance()) && !objDto.getConcluido()) {
+			return StatusTarefa.PENDENTE;
+		} else if (objDto.getDataPrevisaoConclusao().after(Calendar.getInstance()) && !objDto.getConcluido()) {
+			return StatusTarefa.ATRASADA;
+		} else 
+		return StatusTarefa.CONCLUIDO;
+	}
+	
 }
