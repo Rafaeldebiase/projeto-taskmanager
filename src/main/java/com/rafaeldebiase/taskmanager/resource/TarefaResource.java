@@ -23,6 +23,8 @@ import com.rafaeldebiase.taskmanager.dto.TarefaDto;
 import com.rafaeldebiase.taskmanager.dto.TarefaNewDto;
 import com.rafaeldebiase.taskmanager.service.TarefaService;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * @author rafael de Biase
  *
@@ -35,12 +37,14 @@ public class TarefaResource {
 	@Autowired
 	private TarefaService service;
 	
+	@ApiOperation(value="Busca tarefa por Id")
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 		Tarefa obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@ApiOperation(value="Lista todas as tarefas - restrição: Admin")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<List<TarefaDto>> findAll() {
@@ -50,6 +54,7 @@ public class TarefaResource {
 		return ResponseEntity.ok().body(listTDO);
 	}
 	
+	@ApiOperation(value="Lista somente as tarefas do usuário - busca por Id")
 	@PreAuthorize("hasAnyRole('USUARIO')")
 	@RequestMapping(value="/usuario={id}", method=RequestMethod.GET)
 	public ResponseEntity<List<TarefaDto>> findByUsuario(@PathVariable Usuario id) {
@@ -59,6 +64,7 @@ public class TarefaResource {
 		return ResponseEntity.ok().body(listTDO);
 	}
 	
+	@ApiOperation(value="Lista todas as tarefas com paginação - restrição: Admin")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value="/page", method=RequestMethod.GET)
 	public ResponseEntity<Page<Tarefa>> page(
@@ -70,6 +76,7 @@ public class TarefaResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
+	@ApiOperation(value="Insere nova tarefa.")
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody TarefaNewDto objDto){
 		Tarefa obj = service.fromDto(objDto);
@@ -79,6 +86,7 @@ public class TarefaResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@ApiOperation(value="Atualiza a tarefa.")
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody TarefaNewDto objDto, @PathVariable Integer id) {
 		Tarefa obj = service.fromDto(objDto);
@@ -87,6 +95,7 @@ public class TarefaResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@ApiOperation(value="Apaga a tarefa")
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);

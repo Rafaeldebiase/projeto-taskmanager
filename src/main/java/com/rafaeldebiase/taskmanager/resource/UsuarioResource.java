@@ -23,6 +23,8 @@ import com.rafaeldebiase.taskmanager.dto.UsuarioDto;
 import com.rafaeldebiase.taskmanager.dto.UsuarioNewDto;
 import com.rafaeldebiase.taskmanager.service.UsuarioService;
 
+import io.swagger.annotations.ApiOperation;
+
 
 @RestController
 @RequestMapping(value="/usuarios")
@@ -31,12 +33,14 @@ public class UsuarioResource {
 	@Autowired
 	private UsuarioService service;
 	
+	@ApiOperation(value="Busca tarefa por Id")
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Usuario> find(@PathVariable Integer id) {
 		Usuario obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@ApiOperation(value="Lista todas os usuários - restrição: Admin")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<List<UsuarioDto>> findAll() {
@@ -46,6 +50,7 @@ public class UsuarioResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
+	@ApiOperation(value="Lista todas os usuários com paginação - restrição: Admin")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value="/page", method=RequestMethod.GET)
 	public ResponseEntity<Page<UsuarioDto>> page(
@@ -58,6 +63,7 @@ public class UsuarioResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
+	@ApiOperation(value="Insere novo usário.")
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody UsuarioNewDto objDto){
 		Usuario obj = service.fromDto(objDto);
@@ -67,6 +73,7 @@ public class UsuarioResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@ApiOperation(value="Atualiza a usuário.")
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody UsuarioDto objDto, @PathVariable Integer id) {
 		Usuario obj = service.fromDto(objDto);
@@ -75,6 +82,7 @@ public class UsuarioResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@ApiOperation(value="Apaga o usuário - retritrição: Admin ")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
