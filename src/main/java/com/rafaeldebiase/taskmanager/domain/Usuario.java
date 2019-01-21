@@ -28,6 +28,7 @@ public class Usuario {
 	private String nome;
 	
 	@Column(unique=true)
+	
 	private String email;
 	
 	@JsonIgnore
