@@ -13,7 +13,7 @@ public class TarefaNewDto implements Serializable {
 	private String descricao;
 	private Boolean concluido;
 	private Calendar dataCriacao;
-	private Calendar dataPrevisaoEntrega;
+	private String dataPrevisaoConclusao;
 	private StatusTarefa status;
 	
 	private Integer idUsuario;
@@ -79,12 +79,12 @@ public class TarefaNewDto implements Serializable {
 		this.idUsuario = idUsuario;
 	}
 
-	public Calendar getDataPrevisaoEntrega() {
-		return dataPrevisaoEntrega;
+	public String getDataPrevisaoEntrega() {
+		return dataPrevisaoConclusao;
 	}
 
-	public void setDataPrevisaoEntrega(Calendar dataPrevisaoEntrega) {
-		this.dataPrevisaoEntrega = dataPrevisaoEntrega;
+	public void setDataPrevisaoEntrega(String dataPrevisaoEntrega) {
+		this.dataPrevisaoConclusao = dataPrevisaoEntrega;
 	}
 
 	public StatusTarefa getStatus() {

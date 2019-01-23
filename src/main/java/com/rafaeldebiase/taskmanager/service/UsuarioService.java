@@ -39,6 +39,10 @@ public class UsuarioService {
 			throw new AuthorizationException("Acesso negado");
 		}
 		
+		if (id == null) {
+			throw new AuthorizationException("O id do usuário deve ser preenchido.");
+		}
+		
 		Optional<Usuario> obj = repository.findById(id);
 		return obj.orElseThrow(() -> 
 		new ObjectNotFoundException("Objeto não encontrado id: " + id 
@@ -89,9 +93,7 @@ public class UsuarioService {
 	}
 	
 	private void updateData(Usuario newObj, Usuario obj) {
-		newObj.setNome(obj.getNome());
-		newObj.setEmail(obj.getEmail());
-		newObj.setSenha(obj.getSenha());
+		obj.setSenha(newObj.getSenha());
 	}
 
 	public Usuario fromDto(UsuarioDto objDto) {
@@ -101,7 +103,5 @@ public class UsuarioService {
 	public Usuario fromDto(UsuarioNewDto objDto) {
 		return new Usuario(null, objDto.getNome(), objDto.getEmail(), pe.encode(objDto.getSenha()));
 	}
-	
-	// 
 
 }

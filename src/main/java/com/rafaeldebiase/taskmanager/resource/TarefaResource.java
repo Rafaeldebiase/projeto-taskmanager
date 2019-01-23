@@ -1,5 +1,6 @@
 package com.rafaeldebiase.taskmanager.resource;
 import java.net.URI;
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,7 +79,7 @@ public class TarefaResource {
 	
 	@ApiOperation(value="Insere nova tarefa.")
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody TarefaNewDto objDto){
+	public ResponseEntity<Void> insert(@Valid @RequestBody TarefaNewDto objDto) throws ParseException{
 		Tarefa obj = service.fromDto(objDto);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -88,7 +89,7 @@ public class TarefaResource {
 	
 	@ApiOperation(value="Atualiza a tarefa.")
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@Valid @RequestBody TarefaNewDto objDto, @PathVariable Integer id) {
+	public ResponseEntity<Void> update(@Valid @RequestBody TarefaDto objDto, @PathVariable Integer id) {
 		Tarefa obj = service.fromDto(objDto);
 		obj.setId(id);
 		obj = service.update(obj);

@@ -1,5 +1,6 @@
 package com.rafaeldebiase.taskmanager.service;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,7 @@ import com.rafaeldebiase.taskmanager.security.UserSS;
 import com.rafaeldebiase.taskmanager.service.exception.AuthorizationException;
 import com.rafaeldebiase.taskmanager.service.exception.DataIngretyException;
 import com.rafaeldebiase.taskmanager.service.exception.ObjectNotFoundException;
+import com.rafaeldebiase.taskmanager.tools.Useful;
 
 
 @Service
@@ -30,7 +32,6 @@ public class TarefaService {
 		
 	@Autowired
 	private UsuarioService usuarioService;
-
 
 	public Tarefa find(Integer id) {
 		UserSS user = UserServices.authenticated();
@@ -64,6 +65,7 @@ public class TarefaService {
 	
 	public Tarefa insert(Tarefa obj) {
 		obj.setId(null);
+		obj.setDataCriacao(Calendar.getInstance());
 		return repository.save(obj);
 	}
 
@@ -83,42 +85,29 @@ public class TarefaService {
 	}
 	
 	private void updateData(Tarefa newObj, Tarefa obj) {
-		newObj.setTitulo(obj.getTitulo());
-		newObj.setDescricao(obj.getDescricao());
-		newObj.setConcluido(obj.getConcluido());
+		obj.setDataCriacao(newObj.getDataCriacao());
+		obj.setUsuario(newObj.getUsuario());	
 	}
 	
 	public Tarefa fromDto(TarefaDto objDto) {
-		StatusTarefa newObj = this._verificaStatusTarefa(objDto);
-		return new Tarefa(null, objDto.getTitulo(), objDto.getDescricao(), objDto.getConcluido(), null, objDto.getDataPrevisaoConclusao(), newObj, null);
+		StatusTarefa newObj = Useful.verrifyStatusTarefa(objDto);
+		
+		return new Tarefa(null, objDto.getTitulo(), objDto.getDescricao(), objDto.getConcluido(), objDto.getDataCriacao(), 
+				objDto.getDataPrevisaoConclusao(), newObj, null);
 		
 	}
 
-	public Tarefa fromDto(TarefaNewDto objDto) {
-		StatusTarefa newObj = this._verificaStatusTarefa(objDto);
-		return new Tarefa(null, objDto.getTitulo(), objDto.getDescricao(), objDto.getConcluido(), Calendar.getInstance(), objDto.getDataPrevisaoEntrega(), newObj, usuarioService.find(objDto.getIdUsuario()));
+	public Tarefa fromDto(TarefaNewDto objDto) throws ParseException {
+		StatusTarefa newObj = Useful.verrifyStatusTarefa(objDto);
+		
+		Calendar newDate = Useful.convertsStringForCalendar(objDto.getDataPrevisaoEntrega());
+		
+		return new Tarefa(null, objDto.getTitulo(), objDto.getDescricao(), objDto.getConcluido(), Calendar.getInstance(), newDate, 
+				newObj, usuarioService.find(objDto.getIdUsuario()));
 	}
 	
-	private StatusTarefa _verificaStatusTarefa(TarefaNewDto objDto) {
-		if (objDto.getDataPrevisaoEntrega().before(Calendar.getInstance()) && !objDto.getConcluido()) {
-			return StatusTarefa.PENDENTE;
-		} else if (objDto.getDataPrevisaoEntrega().equals(Calendar.getInstance()) && !objDto.getConcluido()) {
-			return StatusTarefa.PENDENTE;
-		} else if (objDto.getDataPrevisaoEntrega().after(Calendar.getInstance()) && !objDto.getConcluido()) {
-			return StatusTarefa.ATRASADA;
-		} else 
-		return StatusTarefa.CONCLUIDO;
-	}
 	
-	private StatusTarefa _verificaStatusTarefa(TarefaDto objDto) {
-		if (objDto.getDataPrevisaoConclusao().before(Calendar.getInstance()) && !objDto.getConcluido()) {
-			return StatusTarefa.PENDENTE;
-		} else if (objDto.getDataPrevisaoConclusao().equals(Calendar.getInstance()) && !objDto.getConcluido()) {
-			return StatusTarefa.PENDENTE;
-		} else if (objDto.getDataPrevisaoConclusao().after(Calendar.getInstance()) && !objDto.getConcluido()) {
-			return StatusTarefa.ATRASADA;
-		} else 
-		return StatusTarefa.CONCLUIDO;
-	}
+	
+	
 	
 }

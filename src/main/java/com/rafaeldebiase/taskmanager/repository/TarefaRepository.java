@@ -24,5 +24,4 @@ public interface TarefaRepository extends JpaRepository<Tarefa, Integer> {
 	
 	@Transactional(readOnly=true)
 	List<Tarefa> findByUsuario(Usuario id);
-	
 }
