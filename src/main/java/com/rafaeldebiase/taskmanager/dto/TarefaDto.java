@@ -1,13 +1,14 @@
 package com.rafaeldebiase.taskmanager.dto;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.Calendar;
 
 import javax.validation.constraints.NotEmpty;
 
 import com.rafaeldebiase.taskmanager.domain.Tarefa;
-import com.rafaeldebiase.taskmanager.domain.Usuario;
 import com.rafaeldebiase.taskmanager.domain.enums.StatusTarefa;
+import com.rafaeldebiase.taskmanager.tools.Useful;
 
 public class TarefaDto implements Serializable {
 
@@ -20,20 +21,20 @@ public class TarefaDto implements Serializable {
 	private String descricao;
 	private Boolean concluido;
 	private Calendar dataCriacao;
-	private Calendar dataPrevisaoEntrega;
+	private String dataPrevisaoEntrega;
 	private StatusTarefa status;
 	
 
 	public TarefaDto() {
 	}
 
-	public TarefaDto(Tarefa obj) {
+	public TarefaDto(Tarefa obj) throws ParseException {
 		id = obj.getId();
 		titulo = obj.getTitulo();
 		descricao = obj.getDescricao();
 		concluido = obj.getConcluido();
 		dataCriacao = obj.getDataCriacao();
-		setDataPrevisaoEntrega(obj.getDataPrevisaoEntrega());
+		dataPrevisaoEntrega = Useful.convertsCalendarForString(obj.getDataPrevisaoEntrega());
 		setStatus(obj.getStatus());
 		
 	}
@@ -78,11 +79,11 @@ public class TarefaDto implements Serializable {
 		this.dataCriacao = dataCriacao;
 	}
 
-	public Calendar getDataPrevisaoConclusao() {
+	public String getDataPrevisaoConclusao() {
 		return dataPrevisaoEntrega;
 	}
 
-	public void setDataPrevisaoEntrega(Calendar dataPrevisaoEntrega) {
+	public void setDataPrevisaoEntrega(String dataPrevisaoEntrega) {
 		this.dataPrevisaoEntrega = dataPrevisaoEntrega;
 	}
 

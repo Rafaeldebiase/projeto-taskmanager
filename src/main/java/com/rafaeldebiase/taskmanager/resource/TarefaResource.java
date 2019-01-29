@@ -51,7 +51,14 @@ public class TarefaResource {
 	public ResponseEntity<List<TarefaDto>> findAll() {
 		List<Tarefa> list = service.findAll();
 		List<TarefaDto> listTDO = list.stream()
-				.map(obj -> new TarefaDto(obj)).collect(Collectors.toList());
+				.map(obj -> {
+					try {
+						return new TarefaDto(obj);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					return null;
+				}).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listTDO);
 	}
 	
@@ -61,7 +68,14 @@ public class TarefaResource {
 	public ResponseEntity<List<TarefaDto>> findByUsuario(@PathVariable Usuario id) {
 		List<Tarefa> list = service.findByUsuario(id);
 		List<TarefaDto> listTDO = list.stream()
-				.map(obj -> new TarefaDto(obj)).collect(Collectors.toList());
+				.map(obj -> {
+					try {
+						return new TarefaDto(obj);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					return null;
+				}).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listTDO);
 	}
 	
@@ -89,7 +103,7 @@ public class TarefaResource {
 	
 	@ApiOperation(value="Atualiza a tarefa.")
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@Valid @RequestBody TarefaDto objDto, @PathVariable Integer id) {
+	public ResponseEntity<Void> update(@Valid @RequestBody TarefaDto objDto, @PathVariable Integer id) throws ParseException {
 		Tarefa obj = service.fromDto(objDto);
 		obj.setId(id);
 		obj = service.update(obj);

@@ -89,11 +89,14 @@ public class TarefaService {
 		obj.setUsuario(newObj.getUsuario());	
 	}
 	
-	public Tarefa fromDto(TarefaDto objDto) {
+	public Tarefa fromDto(TarefaDto objDto) throws ParseException {
 		StatusTarefa newObj = Useful.verrifyStatusTarefa(objDto);
 		
+		Calendar dataConvertida = Useful.convertsStringForCalendar(objDto.getDataPrevisaoConclusao());
+		
+		
 		return new Tarefa(null, objDto.getTitulo(), objDto.getDescricao(), objDto.getConcluido(), objDto.getDataCriacao(), 
-				objDto.getDataPrevisaoConclusao(), newObj, null);
+				dataConvertida, newObj, null);
 		
 	}
 
