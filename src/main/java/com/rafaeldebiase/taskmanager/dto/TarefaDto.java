@@ -21,7 +21,7 @@ public class TarefaDto implements Serializable {
 	private String descricao;
 	private Boolean concluido;
 	private Calendar dataCriacao;
-	private String dataPrevisaoEntrega;
+	private Calendar dataPrevisaoEntrega;
 	private StatusTarefa status;
 	
 
@@ -34,7 +34,7 @@ public class TarefaDto implements Serializable {
 		descricao = obj.getDescricao();
 		concluido = obj.getConcluido();
 		dataCriacao = obj.getDataCriacao();
-		dataPrevisaoEntrega = Useful.convertsCalendarForString(obj.getDataPrevisaoEntrega());
+		dataPrevisaoEntrega = obj.getDataPrevisaoEntrega();
 		setStatus(obj.getStatus());
 		
 	}
@@ -79,11 +79,11 @@ public class TarefaDto implements Serializable {
 		this.dataCriacao = dataCriacao;
 	}
 
-	public String getDataPrevisaoConclusao() {
+	public Calendar getDataPrevisaoConclusao() {
 		return dataPrevisaoEntrega;
 	}
 
-	public void setDataPrevisaoEntrega(String dataPrevisaoEntrega) {
+	public void setDataPrevisaoEntrega(Calendar dataPrevisaoEntrega) {
 		this.dataPrevisaoEntrega = dataPrevisaoEntrega;
 	}
 
