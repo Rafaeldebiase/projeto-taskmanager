@@ -122,7 +122,7 @@ public class Tarefa {
 		this.dataCriacao = dataCriacao;
 	}
 	
-	public Calendar getDataPrevisaoEntrega() {
+	public Calendar getDataPrevisaoConclusao() {
 		return dataPrevisaoEntrega;
 	}
 

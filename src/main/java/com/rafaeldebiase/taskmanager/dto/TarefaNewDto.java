@@ -79,12 +79,12 @@ public class TarefaNewDto implements Serializable {
 		this.idUsuario = idUsuario;
 	}
 
-	public Calendar getDataPrevisaoEntrega() {
+	public Calendar getDataPrevisaoConclusao() {
 		return dataPrevisaoConclusao;
 	}
 
-	public void setDataPrevisaoEntrega(Calendar dataPrevisaoEntrega) {
-		this.dataPrevisaoConclusao = dataPrevisaoEntrega;
+	public void setDataPrevisaoConclusao(Calendar dataPrevisaoConclusao) {
+		this.dataPrevisaoConclusao = dataPrevisaoConclusao;
 	}
 
 	public StatusTarefa getStatus() {

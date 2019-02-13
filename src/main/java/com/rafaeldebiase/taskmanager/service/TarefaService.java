@@ -100,8 +100,8 @@ public class TarefaService {
 	public Tarefa fromDto(TarefaNewDto objDto) throws ParseException {
 		StatusTarefa newObj = Useful.verrifyStatusTarefa(objDto);
 		
-		return new Tarefa(null, objDto.getTitulo(), objDto.getDescricao(), objDto.getConcluido(), Calendar.getInstance(), objDto.getDataPrevisaoEntrega(), 
-				newObj, usuarioService.find(objDto.getIdUsuario()));
+		return new Tarefa(null, objDto.getTitulo(), objDto.getDescricao(), objDto.getConcluido(), Calendar.getInstance(), 
+				objDto.getDataPrevisaoConclusao(), newObj, usuarioService.find(objDto.getIdUsuario()));
 	}
 	
 	

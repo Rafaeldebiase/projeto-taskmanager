@@ -1,7 +1,6 @@
 package com.rafaeldebiase.taskmanager.tools;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import com.rafaeldebiase.taskmanager.domain.enums.StatusTarefa;
@@ -32,11 +31,11 @@ public class Useful {
 	
 	public static StatusTarefa verrifyStatusTarefa(TarefaNewDto objDto) throws ParseException {
 		
-		if (objDto.getDataPrevisaoEntrega().before(Calendar.getInstance()) && !objDto.getConcluido()) {
+		if (objDto.getDataPrevisaoConclusao().before(Calendar.getInstance()) && !objDto.getConcluido()) {
 			return StatusTarefa.ATRASADA;
-		} else if (objDto.getDataPrevisaoEntrega().equals(Calendar.getInstance()) && !objDto.getConcluido()) {
+		} else if (objDto.getDataPrevisaoConclusao().equals(Calendar.getInstance()) && !objDto.getConcluido()) {
 			return StatusTarefa.PENDENTE;
-		} else if (objDto.getDataPrevisaoEntrega().after(Calendar.getInstance()) && !objDto.getConcluido()) {
+		} else if (objDto.getDataPrevisaoConclusao().after(Calendar.getInstance()) && !objDto.getConcluido()) {
 			return StatusTarefa.PENDENTE;
 		}
 		return StatusTarefa.CONCLUIDO;
